@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -76,11 +77,11 @@ fun digitNumber(n: Int): Int {
     var cnt = 0
     var numb = n
     if (numb == 0) return 1
-    while (numb > 0 || numb < 0) {
+    while (abs(numb) != 0) {
         cnt ++
         numb = numb / 10
     }
-return cnt
+    return cnt
 }
 
 /**

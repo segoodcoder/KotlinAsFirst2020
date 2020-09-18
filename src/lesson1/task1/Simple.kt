@@ -83,7 +83,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(deg: Int, min: Int, sec: Int): Double = ((deg * 3600 + min * 60 + sec) * PI / (180 * 3600)).toDouble()
+fun angleInRadian(deg: Int, min: Int, sec: Int): Double = ((deg * 3600 + min * 60 + sec) * PI / (180 * 3600))
 
 /**
  * Тривиальная (1 балл)
@@ -92,7 +92,7 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Double = ((deg * 3600 + min * 6
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double =
-    sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)).toDouble()
+    sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
 
 /**
  * Простая (2 балла)
@@ -120,7 +120,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double =
-    initial.toDouble() * (1 + percent.toDouble() / 100) * (1 + percent.toDouble() / 100) * (1 + percent.toDouble() / 100)
+    initial.toDouble() * (1 + percent.toDouble() / 100).pow(3)
 
 /**
  * Простая (2 балла)
