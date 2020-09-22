@@ -78,8 +78,8 @@ fun digitNumber(n: Int): Int {
     var numb = n
     if (numb == 0) return 1
     while (abs(numb) != 0) {
-        cnt ++
-        numb = numb / 10
+        cnt++
+        numb/= 10
     }
     return cnt
 }
@@ -130,7 +130,30 @@ fun collatzSteps(x: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var m1: Int
+    var n1: Int
+    var mx: Int
+    var mn: Int
+    var mn1: Int
+    var k: Int
+    m1 = m
+    n1 = n
+    if (m1 > n1) {
+        mx = m1
+        mn = n1
+    } else {
+        mx = n1
+        mn = m1
+    }
+    while (mx % mn != 0){
+        mn1 = mn
+        mn = mx % mn
+        mx = mn1
+    }
+    k = m * n / mn
+    return k
+}
 
 /**
  * Средняя (3 балла)

@@ -48,6 +48,7 @@ fun daysInMonth(month: Int, year: Int): Int {
     else 30
 }
 
+
 /**
  * Простая (2 балла)
  *

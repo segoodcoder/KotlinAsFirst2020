@@ -90,7 +90,7 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    var routeHalf = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    val routeHalf = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     return if (routeHalf == t1 * v1) t1
     else if (routeHalf == t1 * v1 + t2 * v2) t1 + t2
     else if (routeHalf < t1 * v1) routeHalf / v1
