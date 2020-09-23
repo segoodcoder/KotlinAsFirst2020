@@ -4,6 +4,7 @@ package lesson3.task1
 
 import kotlin.math.abs
 import kotlin.math.sqrt
+import kotlin.math.pow
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -79,7 +80,7 @@ fun digitNumber(n: Int): Int {
     if (numb == 0) return 1
     while (abs(numb) != 0) {
         cnt++
-        numb/= 10
+        numb /= 10
     }
     return cnt
 }
@@ -131,28 +132,17 @@ fun collatzSteps(x: Int): Int = TODO()
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var m1: Int
-    var n1: Int
     var mx: Int
     var mn: Int
     var mn1: Int
-    var k: Int
-    m1 = m
-    n1 = n
-    if (m1 > n1) {
-        mx = m1
-        mn = n1
-    } else {
-        mx = n1
-        mn = m1
-    }
-    while (mx % mn != 0){
+    mx = maxOf(m, n)
+    mn = minOf(m, n)
+    while (mx % mn != 0) {
         mn1 = mn
         mn = mx % mn
         mx = mn1
     }
-    k = m * n / mn
-    return k
+    return m * n / mn
 }
 
 /**
@@ -162,7 +152,9 @@ fun lcm(m: Int, n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    return (lcm(m, n) == m * n)
+}
 
 /**
  * Средняя (3 балла)
@@ -234,15 +226,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Unit = TODO()
 
-/**
- * Сложная (5 баллов)
- *
- * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
- * 1123581321345589144...
- * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
- *
- * Использовать операции со строками в этой задаче запрещается.
- */
+    /**
+     * Сложная (5 баллов)
+     *
+     * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
+     * 1123581321345589144...
+     * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
+     *
+     * Использовать операции со строками в этой задаче запрещается.
+     */
+
 fun fibSequenceDigit(n: Int): Int = TODO()
