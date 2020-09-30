@@ -273,6 +273,7 @@ fun roman(n: Int): String {
     var five = 'V'
     var i: Int
     while (n1 > 0) {
+        if (cnt10 == 0) five = 'V'
         if (cnt10 == 1) five = 'L'
         if (cnt10 == 2) five = 'D'
         lastdig = n1 % 10
@@ -290,12 +291,13 @@ fun roman(n: Int): String {
             }
             if (lastdig == 9 && cnt10 <= 2) answer.addAll(listOf(rmnlttrs[cnt10 + 1], rmnlttrs[cnt10]))
             if (cnt10 >= 3) answer.addAll(MutableList(lastdig) { rmnlttrs[3] })
+            cnt10++
+            n1 /= 10
         }
-        while (lastdig == 0) {
-            //ДОДЕЛАТЬ!//
+        if (lastdig == 0) {
+            cnt10++
+            n1 /= 10
         }
-        n1 /= 10
-        cnt10++
     }
     return answer.reversed().joinToString("")
 }
