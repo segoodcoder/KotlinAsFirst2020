@@ -278,11 +278,7 @@ fun roman(n: Int): String {
         if (cnt10 == 2) five = 'D'
         lastdig = n1 % 10
         if (lastdig != 0) {
-            if (lastdig <= 3 && cnt10 <= 2)
-                while (lastdig > 0) {
-                    answer.add(rmnlttrs[cnt10])
-                    lastdig--
-                }
+            if (lastdig <= 3 && cnt10 <= 2) answer.addAll(MutableList(lastdig) { rmnlttrs[cnt10] })
             if (lastdig == 4 && cnt10 <= 2) answer.addAll(listOf(five, rmnlttrs[cnt10]))
             if (lastdig == 5 && cnt10 <= 2) answer.add(five)
             if (lastdig in 6..8 && cnt10 <= 2) {
@@ -303,8 +299,6 @@ fun roman(n: Int): String {
 }
 
 
-
-
 /**
  * Очень сложная (7 баллов)
  *
@@ -313,3 +307,65 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()
+//{
+//    var n1 = n
+//    var answer = mutableListOf<String>()
+//    var lstdg = 0
+//    var cnt10 = 0
+//    var dig010 = listOf(
+//        "", "один", "два", "три", "четыре", "пять",
+//        "шесть", "семь", "восемь", "девять"
+//    )
+//    var dig1020 = listOf(
+//        "десять", "одиннадцать", "двенадцать", "тринадцать",
+//        "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
+//    )
+//    var tens = listOf(
+//        "", "", "двадцать", "тридцать",
+//        "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто"
+//    )
+//    var hunds = listOf("", "сто", "двести", "триcта", "четыреста", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+//    var thous = listOf("", "одна тысяча", "две тысячи", "три тысячи", "четыре тысячи", "тысяч")
+//    while (n1 > 1) {
+//        lstdg = n1 % 10
+//        cnt10++
+//        if (n1 / 10 % 10 == 0) {
+//            answer.add(dig010[lstdg])
+//        }
+//        if (n1 / 10 % 10 == 1 && cnt10 == 1) {
+//            answer.add(dig1020[lstdg])
+//            cnt10++
+//        }
+//        if (cnt10 == 1) {
+//            answer.add(tens[lstdg])
+//            cnt10++
+//        }
+//        if (cnt10 == 2) {
+//            answer.add(hunds[lstdg])
+//            cnt10++
+//        }
+//        if (cnt10 == 3) {
+//            if (lstdg in 1..4 && n1 / 10 % 10 == 0) {
+//                answer.add(thous[n1 / 10 % 10])
+//                cnt10++
+//            }
+//            if (lstdg in 5..9 && n1 / 10 % 10 == 0) {
+//                answer.add("тысяч")
+//                answer.add(dig010[lstdg])
+//                cnt10++
+//            }
+//            if (n1 / 10 % 10 == 1) {
+//                answer.add("тысяч")
+//                answer.add(dig1020[lstdg])
+//                cnt10++
+//            if (n1 / 10 % 10 in 2..9) {
+//                answer.add("тысяч")
+//                answer.add(dig1020[lstdg])
+//                answer.add()
+//                cnt10++
+//                }
+//            }
+//        }
+//    }
+//    return answer.reversed().joinToString(" ")
+//}
