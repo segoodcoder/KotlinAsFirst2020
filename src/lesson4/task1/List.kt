@@ -199,7 +199,7 @@ fun factorize(n: Int): List<Int> = TODO()
 fun factorizeToString(n: Int): String {
     var k = 2
     var n1 = n
-    var l = mutableListOf<Int>()
+    val l = mutableListOf<Int>()
     while (n1 > 1) {
         while (n1 % k == 0) {
             l.add(k)
@@ -265,10 +265,10 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var rmnlttrs = listOf('I', 'X', 'C', 'M')
+    val rmnlttrs = listOf('I', 'X', 'C', 'M')
     var n1 = n
     var cnt10 = 0
-    var answer = mutableListOf<Char>()
+    val answer = mutableListOf<Char>()
     var lastdig: Int
     var five = 'V'
     var i: Int
@@ -298,7 +298,6 @@ fun roman(n: Int): String {
     return answer.reversed().joinToString("")
 }
 
-
 /**
  * Очень сложная (7 баллов)
  *
@@ -306,66 +305,58 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
-//{
-//    var n1 = n
-//    var answer = mutableListOf<String>()
-//    var lstdg = 0
-//    var cnt10 = 0
-//    var dig010 = listOf(
-//        "", "один", "два", "три", "четыре", "пять",
-//        "шесть", "семь", "восемь", "девять"
-//    )
-//    var dig1020 = listOf(
-//        "десять", "одиннадцать", "двенадцать", "тринадцать",
-//        "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
-//    )
-//    var tens = listOf(
-//        "", "", "двадцать", "тридцать",
-//        "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто"
-//    )
-//    var hunds = listOf("", "сто", "двести", "триcта", "четыреста", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-//    var thous = listOf("", "одна тысяча", "две тысячи", "три тысячи", "четыре тысячи", "тысяч")
-//    while (n1 > 1) {
-//        lstdg = n1 % 10
-//        cnt10++
-//        if (n1 / 10 % 10 == 0) {
-//            answer.add(dig010[lstdg])
-//        }
-//        if (n1 / 10 % 10 == 1 && cnt10 == 1) {
-//            answer.add(dig1020[lstdg])
-//            cnt10++
-//        }
-//        if (cnt10 == 1) {
-//            answer.add(tens[lstdg])
-//            cnt10++
-//        }
-//        if (cnt10 == 2) {
-//            answer.add(hunds[lstdg])
-//            cnt10++
-//        }
-//        if (cnt10 == 3) {
-//            if (lstdg in 1..4 && n1 / 10 % 10 == 0) {
-//                answer.add(thous[n1 / 10 % 10])
-//                cnt10++
-//            }
-//            if (lstdg in 5..9 && n1 / 10 % 10 == 0) {
-//                answer.add("тысяч")
-//                answer.add(dig010[lstdg])
-//                cnt10++
-//            }
-//            if (n1 / 10 % 10 == 1) {
-//                answer.add("тысяч")
-//                answer.add(dig1020[lstdg])
-//                cnt10++
-//            if (n1 / 10 % 10 in 2..9) {
-//                answer.add("тысяч")
-//                answer.add(dig1020[lstdg])
-//                answer.add()
-//                cnt10++
-//                }
-//            }
-//        }
-//    }
-//    return answer.reversed().joinToString(" ")
-//}
+fun russian(n: Int): String {
+    var cnt = 0
+    var answer = mutableListOf<String>()
+    var s = " "
+    val dig09 = listOf(
+        "", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"
+    )
+    val dig1019 = listOf(
+        "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать",
+        "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
+    )
+    val dig2090 = listOf(
+        "", "", "двадцать", "тридцать", "сорок", "пятьдесят",
+        "шестьдесят", "семьдесят", "воемьдесят", "девяносто"
+    )
+    val dig100900 = listOf(
+        "", "сто", "двести", "триста", "четыреста",
+        "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот"
+    )
+    val dig1000 = listOf(
+        "", "одна тысяча", "две тысячи", "три тысячи", "четыре тысячи"
+    )
+    var n1 = n
+    var lastdig = 0
+    var lastdig2 = 0
+    while (n1 > 0) {
+        lastdig = n1 % 10
+        if (cnt == 0 && n1 / 10 % 10 != 1) answer.add(dig09[lastdig])
+        if (cnt == 0 && n1 / 10 % 10 == 1) answer.add(dig1019[lastdig])
+        else if (cnt == 1 && lastdig != 1 && lastdig != 0) answer.add(dig2090[lastdig])
+        if (cnt == 2 && lastdig != 0) answer.add(dig100900[lastdig])
+        if (cnt == 3) {
+            if (n1 / 10 % 10 != 1) {
+                if (lastdig in 1..4) answer.add(dig1000[lastdig])
+                else {
+                    answer.add("тысяч")
+                    if (lastdig != 0) answer.add(dig09[lastdig])
+                }
+            }
+            if (n1 / 10 % 10 == 1) {
+                answer.add("тысяч")
+                if (lastdig != 0) answer.add(dig1019[lastdig])
+            }
+        }
+        if (cnt == 4 && lastdig != 1 && lastdig != 0) answer.add(dig2090[lastdig])
+        if (cnt == 5) answer.add(dig100900[lastdig])
+        cnt++
+        n1 /= 10
+    }
+    return answer.reversed().joinToString(" ").trim()
+}
+
+
+
+
