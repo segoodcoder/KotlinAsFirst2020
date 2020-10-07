@@ -271,7 +271,6 @@ fun roman(n: Int): String {
     val answer = mutableListOf<Char>()
     var lastdig: Int
     var five = 'V'
-    var i: Int
     while (n1 > 0) {
         if (cnt10 == 0) five = 'V'
         if (cnt10 == 1) five = 'L'
@@ -307,8 +306,7 @@ fun roman(n: Int): String {
  */
 fun russian(n: Int): String {
     var cnt = 0
-    var answer = mutableListOf<String>()
-    var s = " "
+    val answer = mutableListOf<String>()
     val dig09 = listOf(
         "", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"
     )
@@ -318,7 +316,7 @@ fun russian(n: Int): String {
     )
     val dig2090 = listOf(
         "", "", "двадцать", "тридцать", "сорок", "пятьдесят",
-        "шестьдесят", "семьдесят", "воемьдесят", "девяносто"
+        "шестьдесят", "семьдесят", "восемьдесят", "девяносто"
     )
     val dig100900 = listOf(
         "", "сто", "двести", "триста", "четыреста",
@@ -328,8 +326,7 @@ fun russian(n: Int): String {
         "", "одна тысяча", "две тысячи", "три тысячи", "четыре тысячи"
     )
     var n1 = n
-    var lastdig = 0
-    var lastdig2 = 0
+    var lastdig: Int
     while (n1 > 0) {
         lastdig = n1 % 10
         if (cnt == 0 && n1 / 10 % 10 != 1) answer.add(dig09[lastdig])
