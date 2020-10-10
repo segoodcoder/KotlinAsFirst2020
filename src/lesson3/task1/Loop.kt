@@ -227,24 +227,16 @@ fun squareSequenceDigit(n: Int): Int {
     var a = 1
     var i = 0
     var tmp: Int
-    var answer: Int
-    while (i < n) {
+    while (i <= n) {
         j++
-        a = j.toDouble().pow(2).toInt()
+        a = j * j
         tmp = a
-        while (tmp > 0) {
-            tmp /= 10
-            i++
-        }
+        i += digitNumber(tmp)
+        if (i == n) return tmp % 10
     }
     tmp = a
-    answer = 0
-    while (i >= n) {
-        answer = tmp % 10
-        tmp /= 10
-        i -= 1
-    }
-    return answer
+    val ten = 10.0
+    return (tmp / ten.pow(i - n).toInt()) % 10
 }
 
 /**
