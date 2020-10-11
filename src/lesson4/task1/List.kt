@@ -268,33 +268,30 @@ fun roman(n: Int): String {
     val rmnlttrs = listOf('I', 'X', 'C', 'M')
     var n1 = n
     var cnt10 = 0
-    val answer = mutableListOf<Char>()
-    var lastdig: Int
-    var five = 'V'
+    var answer = ""
+    var lastDig: Int
+    val fives = listOf('V', 'L', 'D')
     while (n1 > 0) {
-        if (cnt10 == 0) five = 'V'
-        if (cnt10 == 1) five = 'L'
-        if (cnt10 == 2) five = 'D'
-        lastdig = n1 % 10
-        if (lastdig != 0) {
-            if (lastdig <= 3 && cnt10 <= 2) answer.addAll(MutableList(lastdig) { rmnlttrs[cnt10] })
-            if (lastdig == 4 && cnt10 <= 2) answer.addAll(listOf(five, rmnlttrs[cnt10]))
-            if (lastdig == 5 && cnt10 <= 2) answer.add(five)
-            if (lastdig in 6..8 && cnt10 <= 2) {
-                answer.addAll(MutableList(lastdig - 5) { rmnlttrs[cnt10] })
-                answer.add(five)
+        lastDig = n1 % 10
+        if (lastDig != 0) {
+            if (cnt10 <= 2) {
+                when (lastDig) {
+                    in 1..3 -> answer += (MutableList(lastDig) { rmnlttrs[cnt10] }).joinToString(separator = "")
+                    4 -> answer += (listOf(fives[cnt10], rmnlttrs[cnt10])).joinToString(separator = "")
+                    5 -> answer += (fives[cnt10])
+                    in 6..8 -> {
+                        answer += (MutableList(lastDig - 5) { rmnlttrs[cnt10] }).joinToString(separator = "")
+                        answer += (fives[cnt10])
+                    }
+                    else -> answer += (listOf(rmnlttrs[cnt10 + 1], rmnlttrs[cnt10])).joinToString(separator = "")
+                }
             }
-            if (lastdig == 9 && cnt10 <= 2) answer.addAll(listOf(rmnlttrs[cnt10 + 1], rmnlttrs[cnt10]))
-            if (cnt10 >= 3) answer.addAll(MutableList(lastdig) { rmnlttrs[3] })
-            cnt10++
-            n1 /= 10
+            if (cnt10 >= 3) answer += (MutableList(lastDig) { rmnlttrs[3] }).joinToString(separator = "")
         }
-        if (lastdig == 0) {
-            cnt10++
-            n1 /= 10
-        }
+        cnt10++
+        n1 /= 10
     }
-    return answer.reversed().joinToString("")
+    return answer.reversed()
 }
 
 /**

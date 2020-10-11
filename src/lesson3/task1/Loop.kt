@@ -77,11 +77,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var cnt = 0
     var numb = n
-    if (numb == 0) return 1
-    while (abs(numb) != 0) {
+    do {
         cnt++
         numb /= 10
-    }
+    } while (abs(numb) != 0)
     return cnt
 }
 
@@ -226,17 +225,12 @@ fun squareSequenceDigit(n: Int): Int {
     var j = 0
     var a = 1
     var i = 0
-    var tmp: Int
-    while (i <= n) {
+    while (i < n) {
         j++
         a = j * j
-        tmp = a
-        i += digitNumber(tmp)
-        if (i == n) return tmp % 10
+        i += digitNumber(a)
     }
-    tmp = a
-    val ten = 10.0
-    return (tmp / ten.pow(i - n).toInt()) % 10
+    return (a / 10.0.pow(i - n).toInt()) % 10
 }
 
 /**
