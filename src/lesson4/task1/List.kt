@@ -140,11 +140,9 @@ fun mean(list: List<Double>): Double =
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isNotEmpty()) {
-        val mid = mean(list)
-        for (i in list.indices) {
-            list[i] -= mid
-        }
+    val mid = mean(list)
+    for (i in list.indices) {
+        list[i] -= mid
     }
     return list
 }
@@ -276,17 +274,23 @@ fun roman(n: Int): String {
         if (lastDig != 0) {
             if (cnt10 <= 2) {
                 when (lastDig) {
-                    in 1..3 -> answer += (MutableList(lastDig) { rmnlttrs[cnt10] }).joinToString(separator = "")
-                    4 -> answer += (listOf(fives[cnt10], rmnlttrs[cnt10])).joinToString(separator = "")
-                    5 -> answer += (fives[cnt10])
+                    in 1..3 -> repeat(lastDig) {
+                        answer += rmnlttrs[cnt10]
+                    }
+                    4 -> answer += "" + fives[cnt10] + rmnlttrs[cnt10]
+                    5 -> answer += fives[cnt10]
                     in 6..8 -> {
-                        answer += (MutableList(lastDig - 5) { rmnlttrs[cnt10] }).joinToString(separator = "")
+                        repeat(lastDig - 5) {
+                            answer += rmnlttrs[cnt10]
+                        }
                         answer += (fives[cnt10])
                     }
-                    else -> answer += (listOf(rmnlttrs[cnt10 + 1], rmnlttrs[cnt10])).joinToString(separator = "")
+                    else -> answer += "" + rmnlttrs[cnt10 + 1] + rmnlttrs[cnt10]
                 }
             }
-            if (cnt10 >= 3) answer += (MutableList(lastDig) { rmnlttrs[3] }).joinToString(separator = "")
+            if (cnt10 >= 3) repeat(lastDig) {
+                answer += rmnlttrs[3]
+            }
         }
         cnt10++
         n1 /= 10
