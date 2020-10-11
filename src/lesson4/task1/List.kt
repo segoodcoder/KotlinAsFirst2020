@@ -344,7 +344,7 @@ fun russian(n: Int): String {
             }
             if (n1 / 10 % 10 == 1) {
                 answer.add("тысяч")
-                if (lastdig != 0) answer.add(dig1019[lastdig])
+                answer.add(dig1019[lastdig])
             }
         }
         if (cnt == 4 && lastdig != 1 && lastdig != 0) answer.add(dig2090[lastdig])
