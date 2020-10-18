@@ -96,26 +96,7 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val answer = mutableMapOf<Int, List<String>>()
-    val people2 = mutableListOf<String>()
-    val people3 = mutableListOf<String>()
-    val people4 = mutableListOf<String>()
-    val people5 = mutableListOf<String>()
-    for ((name) in grades) {
-        when (grades[name]) {
-            2 -> people2.add(name)
-            3 -> people3.add(name)
-            4 -> people4.add(name)
-            5 -> people5.add(name)
-        }
-    }
-    if (grades.containsValue(2)) answer[2] = people2
-    if (grades.containsValue(3)) answer[3] = people3
-    if (grades.containsValue(4)) answer[4] = people4
-    if (grades.containsValue(5)) answer[5] = people5
-    return answer.toMap()
-}
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
 
 
 /**
@@ -242,7 +223,22 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val answer = mutableMapOf<String, Int>()
+    var elem: String
+    var st = setOf(*list.toTypedArray())
+    var cnt = 0
+    for (elem in st) {
+        for (i in list.indices) {
+            if (list[i] == elem)
+                cnt++
+        }
+        if (cnt > 1) answer[elem] = cnt
+        cnt = 0
+    }
+    return answer.toMap()
+}
+
 
 /**
  * Средняя (3 балла)
