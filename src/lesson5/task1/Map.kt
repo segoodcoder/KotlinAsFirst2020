@@ -96,7 +96,27 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val answer = mutableMapOf<Int, List<String>>()
+    val people2 = mutableListOf<String>()
+    val people3 = mutableListOf<String>()
+    val people4 = mutableListOf<String>()
+    val people5 = mutableListOf<String>()
+    for ((name) in grades) {
+        when (grades[name]) {
+            2 -> people2.add(name)
+            3 -> people3.add(name)
+            4 -> people4.add(name)
+            5 -> people5.add(name)
+        }
+    }
+    if (grades.containsValue(2)) answer[2] = people2
+    if (grades.containsValue(3)) answer[3] = people3
+    if (grades.containsValue(4)) answer[4] = people4
+    if (grades.containsValue(5)) answer[5] = people5
+    return answer.toMap()
+}
+
 
 /**
  * Простая (2 балла)
@@ -108,7 +128,15 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    var answer = true
+    for ((key, value) in a)
+        if (a[key] != b[key]) {
+            answer = false
+            break
+        }
+    return answer
+}
 
 /**
  * Простая (2 балла)
@@ -125,7 +153,13 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
-    TODO()
+    val m = mutableMapOf<String, String>()
+    for ((key, value) in a) {
+        if (a[key] == b[key]) m[key] = value
+    }
+    for ((key, value) in m) {
+        if (a[key] == m[key]) a.remove(key)
+    }
 }
 
 /**
