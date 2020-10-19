@@ -110,13 +110,10 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    var answer = true
-    for ((key, value) in a)
-        if (a[key] != b[key]) {
-            answer = false
-            break
-        }
-    return answer
+    for ((key, value) in a) {
+        if (a[key] != b[key]) return false
+    }
+    return true
 }
 
 /**
@@ -225,8 +222,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val answer = mutableMapOf<String, Int>()
-    var elem: String
-    var st = setOf(*list.toTypedArray())
+    val st = list.toSet()
     var cnt = 0
     for (elem in st) {
         for (i in list.indices) {

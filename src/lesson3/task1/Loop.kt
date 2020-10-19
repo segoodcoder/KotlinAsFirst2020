@@ -94,9 +94,8 @@ fun fib(n: Int): Int {
     var fib1 = 1
     var fib2 = 1
     var i = 0
-    var sumFib: Int
     while (i < n - 2) {
-        sumFib = fib1 + fib2
+        var sumFib: Int = fib1 + fib2
         fib1 = fib2
         fib2 = sumFib
         i++
@@ -145,9 +144,8 @@ fun collatzSteps(x: Int): Int = TODO()
 fun lcm(m: Int, n: Int): Int {
     var mx = maxOf(m, n)
     var mn = minOf(m, n)
-    var mn1: Int
     while (mx % mn != 0) {
-        mn1 = mn
+        var mn1: Int = mn
         mn = mx % mn
         mx = mn1
     }
