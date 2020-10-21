@@ -131,14 +131,15 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
-    val m = mutableMapOf<String, String>()
+    val m = mutableSetOf<String>()
     for ((key, value) in a) {
-        if (a[key] == b[key]) m[key] = value
+        if (value == b[key]) m.add(key)
     }
-    for ((key, value) in m) {
-        if (a[key] == m[key]) a.remove(key)
+    for (key in m) {
+        a.remove(key)
     }
 }
+
 
 /**
  * Простая (2 балла)
@@ -222,17 +223,14 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val answer = mutableMapOf<String, Int>()
-    val st = list.toSet()
-    var cnt = 0
-    for (elem in st) {
-        for (i in list.indices) {
-            if (list[i] == elem)
-                cnt++
+    for (word in list) {
+        if (word in answer) {
+            answer[word] = answer[word]!! + 1
+        } else {
+            answer[word] = 1
         }
-        if (cnt > 1) answer[elem] = cnt
-        cnt = 0
     }
-    return answer.toMap()
+    return answer.filterValues { it > 1 }
 }
 
 
