@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.max
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -303,16 +305,13 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     val mutMap = mutableMapOf<Int, Int>()
-    var ind1 = -1
-    var ind2 = -1
     for (i in list.indices) {
-        if (number - list[i] in list && i != list.indexOf(number - list[i])) {
-            ind1 = minOf(i, list.indexOf(number - list[i]))
-            ind2 = maxOf(i, list.indexOf(number - list[i]))
-            mutMap[ind1] = ind2
-        }
+        if (number - list[i] in mutMap) {
+            val ind = mutMap[number - list[i]]
+            return ind!! to i
+        } else mutMap[list[i]] = i
     }
-    return ind1 to ind2
+    return -1 to -1
 }
 
 /**
@@ -336,4 +335,32 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val result = mutableSetOf<String>()
+    val listOfMass = mutableListOf<Int>()
+    val listOfPrices = mutableListOf<Int>()
+    val listOfTreasures = mutableListOf<String>()
+    val prices = Array(treasures.size + 1) { Array(capacity + 1) { 0 } }
+    for ((key, value) in treasures) {
+        listOfMass.add(value.first)
+        listOfPrices.add(value.second)
+        listOfTreasures.add(key)
+    }
+    for (i in 1..treasures.size) {
+        for (j in 0..capacity) {
+            if (j >= listOfMass[i - 1])
+                prices[i][j] = max(prices[i - 1][j], prices[i - 1][j - listOfMass[i - 1]] + listOfPrices[i - 1])
+            else prices[i][j] = prices[i - 1][j]
+        }
+    }
+    var temp = capacity
+    var i = treasures.size
+    while (i > 0) {
+        if (prices[i][temp] != prices[i - 1][temp]) {
+            result.add(listOfTreasures[i - 1])
+            temp -= listOfMass[i - 1]
+        }
+        i--
+    }
+    return result
+}

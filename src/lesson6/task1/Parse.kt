@@ -75,7 +75,17 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String = TODO()
-
+//    val months = mapOf(
+//        "января" to ("01" to 31), "февраля" to ("02" to (28 to 29)),
+//        "марта" to ("03" to 31), "апреля" to ("04" to 30),
+//        "мая" to ("05" to 31), "июня" to ("06" to 30), "июля" to ("07" to 31),
+//        "августа" to ("08" to 31), "сентября" to ("09" to 30),
+//        "октября" to ("10" to 31), "ноября" to ("11" to 30), "декабря" to ("12" to 31)
+//    )
+//    val parts = str.split("")
+//    var answer = ""
+//    if (parts[1] in months.keys && parts[0].toInt() <= (months[parts[1]] ?: error("")).second)
+//}
 /**
  * Средняя (4 балла)
  *
