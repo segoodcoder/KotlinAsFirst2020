@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import java.lang.Exception
+import java.lang.NumberFormatException
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -74,18 +77,38 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
-//    val months = mapOf(
-//        "января" to ("01" to 31), "февраля" to ("02" to (28 to 29)),
-//        "марта" to ("03" to 31), "апреля" to ("04" to 30),
-//        "мая" to ("05" to 31), "июня" to ("06" to 30), "июля" to ("07" to 31),
-//        "августа" to ("08" to 31), "сентября" to ("09" to 30),
-//        "октября" to ("10" to 31), "ноября" to ("11" to 30), "декабря" to ("12" to 31)
-//    )
-//    val parts = str.split("")
-//    var answer = ""
-//    if (parts[1] in months.keys && parts[0].toInt() <= (months[parts[1]] ?: error("")).second)
-//}
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    val list = mutableListOf<String>()
+    val months = listOf(
+        "", "января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    )
+    val maxDays = listOf(0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+    try {
+        val e = NumberFormatException()
+        if (parts[2].toInt() % 4 == 0) {
+            if (parts[2].toInt() % 100 == 0) {
+                if (parts[2].toInt() % 400 == 0) {
+                    if (parts[1] == "февраля" && parts[0].toInt() > 29) throw(e)
+                } else if (parts[1] == "февраля" && parts[0].toInt() > 28) throw(e)
+            } else if (parts[1] == "февраля" && parts[0].toInt() > 29) throw(e)
+        } else if (parts[1] == "февраля" && parts[0].toInt() > 28) throw(e)
+        if (parts[0].toInt() <= maxDays[months.indexOf(parts[1])]) list.add(
+            twoDigitStr(parts[0].toInt())
+        )
+        else throw(e)
+        if (months.indexOf(parts[1]) in 1..12) list.add(twoDigitStr(months.indexOf(parts[1])))
+        else throw(e)
+        if (parts[2].toInt() > 0) list.add(parts[2])
+        else throw(e)
+    } catch (e: Exception) {
+        return ""
+    }
+    return list.joinToString(separator = ".")
+}
+
 /**
  * Средняя (4 балла)
  *
@@ -96,7 +119,40 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    val months = mapOf(
+        "01" to ("января" to 31), "02" to ("февраля" to 29), "03" to ("марта" to 31),
+        "04" to ("апреля" to 30), "05" to ("мая" to 31), "06" to ("июня" to 30),
+        "07" to ("июля" to 31), "08" to ("августа" to 31), "09" to ("сентября" to 30),
+        "10" to ("октября" to 31), "11" to ("ноября" to 30), "12" to ("декабря" to 31)
+    )
+    val e = NumberFormatException()
+    val answer = mutableListOf<String>()
+    try {
+        if (parts.size != 3) throw e
+        if (parts[1] == "02" && parts[2].toInt() % 4 == 0) {
+            if (parts[2].toInt() % 100 == 0) {
+                if (parts[2].toInt() % 400 == 0) {
+                    if (parts[0].toInt() > 29) throw e
+                } else if (parts[0].toInt() > 28) throw e
+            } else if (parts[0].toInt() > 29) throw e
+        } else if (parts[1] == "02" && parts[0].toInt() > 28) throw e
+        if (parts[1] in months.keys && parts[0].toInt() <= (months[parts[1]])!!.second) {
+            if (parts[0].toInt() < 10) answer.add((parts[0].toInt() % 10).toString())
+            else answer.add(parts[0])
+        } else throw e
+        if (parts[1] in months.keys) answer.add(
+            (months[parts[1]]!!.first)
+        )
+        else throw e
+        if (parts[2].toInt() > 0) answer.add(parts[2])
+        else throw e
+    } catch (e: Exception) {
+        return ""
+    }
+    return answer.joinToString(separator = " ")
+}
 
 /**
  * Средняя (4 балла)
