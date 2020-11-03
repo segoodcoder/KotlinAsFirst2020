@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
 import java.lang.Exception
 import java.lang.NumberFormatException
 
@@ -81,33 +82,27 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size != 3) return ""
     val list = mutableListOf<String>()
-    val months = listOf(
-        "", "января", "февраля", "марта", "апреля", "мая", "июня",
-        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    val months = mapOf(
+        "января" to 1, "февраля" to 2, "марта" to 3, "апреля" to 4, "мая" to 5,
+        "июня" to 6, "июля" to 7, "августа" to 8, "сентября" to 9, "октября" to 10,
+        "ноября" to 11, "декабря" to 12
     )
-    val maxDays = listOf(0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
-    try {
-        val e = NumberFormatException()
-        if (parts[2].toInt() % 4 == 0) {
-            if (parts[2].toInt() % 100 == 0) {
-                if (parts[2].toInt() % 400 == 0) {
-                    if (parts[1] == "февраля" && parts[0].toInt() > 29) throw(e)
-                } else if (parts[1] == "февраля" && parts[0].toInt() > 28) throw(e)
-            } else if (parts[1] == "февраля" && parts[0].toInt() > 29) throw(e)
-        } else if (parts[1] == "февраля" && parts[0].toInt() > 28) throw(e)
-        if (parts[0].toInt() <= maxDays[months.indexOf(parts[1])]) list.add(
-            twoDigitStr(parts[0].toInt())
-        )
-        else throw(e)
-        if (months.indexOf(parts[1]) in 1..12) list.add(twoDigitStr(months.indexOf(parts[1])))
-        else throw(e)
-        if (parts[2].toInt() > 0) list.add(parts[2])
-        else throw(e)
-    } catch (e: Exception) {
-        return ""
-    }
+    if (parts[0].toIntOrNull() == null) return ""
+    val day = parts[0].toInt()
+    if (parts[2].toIntOrNull() == null) return ""
+    val year = parts[2].toInt()
+    val month = parts[1]
+    if (month in months.keys && day <= daysInMonth(months[month]!!, year)) list.add(
+        twoDigitStr(day)
+    )
+    else return ""
+    if (parts[1] in months.keys) list.add(twoDigitStr(months[month]!!))
+    else return ""
+    if (year > 0) list.add(parts[2])
+    else return ""
     return list.joinToString(separator = ".")
 }
+
 
 /**
  * Средняя (4 балла)
@@ -122,36 +117,24 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
     val months = mapOf(
-        "01" to ("января" to 31), "02" to ("февраля" to 29), "03" to ("марта" to 31),
-        "04" to ("апреля" to 30), "05" to ("мая" to 31), "06" to ("июня" to 30),
-        "07" to ("июля" to 31), "08" to ("августа" to 31), "09" to ("сентября" to 30),
-        "10" to ("октября" to 31), "11" to ("ноября" to 30), "12" to ("декабря" to 31)
+        "01" to "января", "02" to "февраля", "03" to "марта",
+        "04" to "апреля", "05" to "мая", "06" to "июня",
+        "07" to "июля", "08" to "августа", "09" to "сентября",
+        "10" to "октября", "11" to "ноября", "12" to "декабря"
     )
-    val e = NumberFormatException()
     val answer = mutableListOf<String>()
-    try {
-        if (parts.size != 3) throw e
-        if (parts[1] == "02" && parts[2].toInt() % 4 == 0) {
-            if (parts[2].toInt() % 100 == 0) {
-                if (parts[2].toInt() % 400 == 0) {
-                    if (parts[0].toInt() > 29) throw e
-                } else if (parts[0].toInt() > 28) throw e
-            } else if (parts[0].toInt() > 29) throw e
-        } else if (parts[1] == "02" && parts[0].toInt() > 28) throw e
-        if (parts[1] in months.keys && parts[0].toInt() <= (months[parts[1]])!!.second) {
-            if (parts[0].toInt() < 10) answer.add((parts[0].toInt() % 10).toString())
-            else answer.add(parts[0])
-        } else throw e
-        if (parts[1] in months.keys) answer.add(
-            (months[parts[1]]!!.first)
-        )
-        else throw e
-        if (parts[2].toInt() > 0) answer.add(parts[2])
-        else throw e
-    } catch (e: Exception) {
-        return ""
-    }
-    return answer.joinToString(separator = " ")
+    if (parts.size != 3) return ""
+    if (parts[0].toIntOrNull() == null) return ""
+    val day = parts[0].toInt()
+    if (parts[1] !in months.keys) return ""
+    val month = parts[1].toInt()
+    if (parts[2].toInt() <= 0) return ""
+    val year = parts[2].toInt()
+    if (day <= daysInMonth(month, year)) answer.add(day.toString())
+    else return ""
+    answer.add(months[parts[1]] ?: error(""))
+    answer.add(parts[2])
+return answer.joinToString(separator = " ")
 }
 
 /**
