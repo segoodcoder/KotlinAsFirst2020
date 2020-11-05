@@ -86,8 +86,8 @@ fun dateStrToDigit(str: String): String {
         "июня" to 6, "июля" to 7, "августа" to 8, "сентября" to 9, "октября" to 10,
         "ноября" to 11, "декабря" to 12
     )
-    var day = parts[0].toIntOrNull() ?: 32
-    var month: Int
+    val day = parts[0].toIntOrNull() ?: 32
+    val month: Int
     val year = parts[2].toIntOrNull() ?: 0
     if (parts[1] in months.keys) month = months[parts[1]] ?: error("")
     else return ""
