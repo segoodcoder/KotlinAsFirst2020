@@ -81,26 +81,19 @@ fun main() {
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size != 3) return ""
-    val list = mutableListOf<String>()
     val months = mapOf(
         "января" to 1, "февраля" to 2, "марта" to 3, "апреля" to 4, "мая" to 5,
         "июня" to 6, "июля" to 7, "августа" to 8, "сентября" to 9, "октября" to 10,
         "ноября" to 11, "декабря" to 12
     )
-    if (parts[0].toIntOrNull() == null) return ""
-    val day = parts[0].toInt()
-    if (parts[2].toIntOrNull() == null) return ""
-    val year = parts[2].toInt()
-    val month = parts[1]
-    if (month in months.keys && day <= daysInMonth(months[month]!!, year)) list.add(
-        twoDigitStr(day)
-    )
+    var day = parts[0].toIntOrNull() ?: 32
+    var month: Int
+    val year = parts[2].toIntOrNull() ?: 0
+    if (parts[1] in months.keys) month = months[parts[1]] ?: error("")
     else return ""
-    if (parts[1] in months.keys) list.add(twoDigitStr(months[month]!!))
-    else return ""
-    if (year > 0) list.add(parts[2])
-    else return ""
-    return list.joinToString(separator = ".")
+    return if (day <= daysInMonth(month, year)) {
+        if (year > 0) "${twoDigitStr(day)}.${twoDigitStr(month)}.$year" else ""
+    } else ""
 }
 
 
@@ -122,19 +115,14 @@ fun dateDigitToStr(digital: String): String {
         "07" to "июля", "08" to "августа", "09" to "сентября",
         "10" to "октября", "11" to "ноября", "12" to "декабря"
     )
-    val answer = mutableListOf<String>()
     if (parts.size != 3) return ""
-    if (parts[0].toIntOrNull() == null) return ""
-    val day = parts[0].toInt()
+    val day = parts[0].toIntOrNull() ?: 32
+    val year = parts[2].toIntOrNull() ?: 0
     if (parts[1] !in months.keys) return ""
     val month = parts[1].toInt()
-    if (parts[2].toInt() <= 0) return ""
-    val year = parts[2].toInt()
-    if (day <= daysInMonth(month, year)) answer.add(day.toString())
-    else return ""
-    answer.add(months[parts[1]] ?: error(""))
-    answer.add(parts[2])
-return answer.joinToString(separator = " ")
+    return if (day <= daysInMonth(month, year)) {
+        if (year > 0) "$day ${months[parts[1]]} $year" else ""
+    } else ""
 }
 
 /**
@@ -165,11 +153,12 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  */
 fun bestLongJump(jumps: String): Int {
     val parts = jumps.split(" ")
-    val normalParts = listOf("-", "%")
+    val normalParts = setOf("-", "%")
     var max = -1
     for (part in parts) {
         if (part.toIntOrNull() != null) {
-            if (part.toInt() > max) max = part.toInt()
+            val jump = part.toInt()
+            if (jump > max) max = jump
         } else if (part !in normalParts) return -1
     }
     return max
@@ -198,15 +187,7 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int = TODO()
-//{
-//    val parts = expression.split(" ")
-//    val answer = 0
-//    for (i in parts.indices) {
-//        val elem = parts[i].toIntOrNull()
-//        if ()
-//        }
-//    }
-//}
+
 
 /**
  * Сложная (6 баллов)
