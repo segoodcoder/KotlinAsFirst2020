@@ -4,6 +4,7 @@ package lesson6.task1
 
 import lesson2.task2.daysInMonth
 import java.lang.Exception
+import java.lang.IllegalArgumentException
 import java.lang.NumberFormatException
 
 // Урок 6: разбор строк, исключения
@@ -86,14 +87,11 @@ fun dateStrToDigit(str: String): String {
         "июня" to 6, "июля" to 7, "августа" to 8, "сентября" to 9, "октября" to 10,
         "ноября" to 11, "декабря" to 12
     )
-    val day = parts[0].toIntOrNull() ?: 32
-    val month: Int
-    val year = parts[2].toIntOrNull() ?: 0
-    if (parts[1] in months.keys) month = months[parts[1]] ?: error("")
-    else return ""
-    return if (day <= daysInMonth(month, year)) {
-        if (year > 0) "${twoDigitStr(day)}.${twoDigitStr(month)}.$year" else ""
-    } else ""
+    val day = parts[0].toIntOrNull() ?: return ""
+    val year = parts[2].toIntOrNull() ?: return ""
+    val month = months[parts[1]] ?: return ""
+    return if (day <= daysInMonth(month, year) && year > 0) "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
+    else ""
 }
 
 
@@ -116,13 +114,11 @@ fun dateDigitToStr(digital: String): String {
         "10" to "октября", "11" to "ноября", "12" to "декабря"
     )
     if (parts.size != 3) return ""
-    val day = parts[0].toIntOrNull() ?: 32
-    val year = parts[2].toIntOrNull() ?: 0
-    if (parts[1] !in months.keys) return ""
-    val month = parts[1].toInt()
-    return if (day <= daysInMonth(month, year)) {
-        if (year > 0) "$day ${months[parts[1]]} $year" else ""
-    } else ""
+    val day = parts[0].toIntOrNull() ?: return ""
+    val year = parts[2].toIntOrNull() ?: return ""
+    val month = months[parts[1]] ?: return ""
+    return if (day <= daysInMonth(parts[1].toInt(), year) && year > 0) "$day $month $year"
+    else ""
 }
 
 /**
@@ -156,9 +152,10 @@ fun bestLongJump(jumps: String): Int {
     val normalParts = setOf("-", "%")
     var max = -1
     for (part in parts) {
-        if (part.toIntOrNull() != null) {
-            val jump = part.toInt()
-            if (jump > max) max = jump
+        val jump = part.toIntOrNull()
+        if (jump != null) {
+            if (jump > max && jump > 0) max = jump
+            else if (jump < 0) return -1
         } else if (part !in normalParts) return -1
     }
     return max
@@ -187,7 +184,6 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int = TODO()
-
 
 /**
  * Сложная (6 баллов)
@@ -224,7 +220,22 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    var answer = 0
+    val romans = mapOf("I" to 1, "V" to 5, "X" to 10, "L" to 50, "C" to 100, "D" to 500, "M" to 1000)
+    val digits = roman.trim().split("")
+    for (i in digits.indices) {
+        if (i != digits.size - 2) {
+            if (digits[i] in romans.keys && digits[i + 1] in romans.keys && romans[digits[i]]!! >= romans[digits[i + 1]]!!) answer += romans[digits[i]]
+                ?: return -1
+            else if (digits[i] in romans.keys && digits[i + 1] in romans.keys && romans[digits[i]]!! < romans[digits[i + 1]]!!) {
+                answer -= romans[digits[i]]!!
+            }
+        } else if (digits[i] in romans.keys) answer += romans[digits[i]] ?: return -1
+    }
+    return if (answer > 0) answer
+    else -1
+}
 
 /**
  * Очень сложная (7 баллов)
