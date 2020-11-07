@@ -222,21 +222,25 @@ fun mostExpensive(description: String): String = TODO()
  */
 fun fromRoman(roman: String): Int {
     var answer = 0
-    val romans = mapOf("I" to 1, "V" to 5, "X" to 10, "L" to 50, "C" to 100, "D" to 500, "M" to 1000)
-    val digits = roman.trim().split("")
-    for (i in digits.indices) {
-        if (i != digits.size - 2 && digits[i] in romans.keys && digits[i + 1] in romans.keys) {
-            if (romans[digits[i]]!! >= romans[digits[i + 1]]!!)
-                answer += romans[digits[i]] ?: return -1
-            else if (romans[digits[i]]!! < romans[digits[i + 1]]!!) {
-                answer -= romans[digits[i]] ?: return -1
+    var tmp = 0
+    val romans = mapOf('I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000)
+    for (char in roman.trim()) {
+        var num = romans[char] ?: return -1
+        if (num < tmp) {
+            answer += tmp
+            tmp = num
+        } else if (num > tmp) {
+            if (tmp == 0) tmp = num
+            else {
+                answer += num - tmp
+                tmp = 0
             }
-        } else if (digits[i] in romans.keys) answer += romans[digits[i]]!!
-        else if (digits[i] !in romans.keys && digits[i] != "") return -1
-        else if (digits[i] == "" && i != 0 && i != digits.size - 1) return -1
+        } else if (num == tmp) {
+            answer += tmp + num
+            tmp = 0
+        }
     }
-    return if (answer > 0) answer
-    else -1
+    return answer + tmp
 }
 
 /**
