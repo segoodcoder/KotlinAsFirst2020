@@ -224,6 +224,7 @@ fun fromRoman(roman: String): Int {
     var answer = 0
     var tmp = 0
     val romans = mapOf('I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000)
+    if (roman == "") return -1
     for (char in roman.trim()) {
         var num = romans[char] ?: return -1
         if (num < tmp) {
