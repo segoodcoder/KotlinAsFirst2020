@@ -82,24 +82,29 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
-//    val reader = File(inputName).bufferedReader()
-//    val answer = mutableMapOf<String, Int>()
-//    for (line in reader.readLines()) {
-//        for (elem in substrings) {
-//            for (i in line.indices) {
-//                var equal = true
-//                for (j in elem.indices) {
-//                    if (i + j !in line.indices || elem[j].toUpperCase() != line[i + j] || elem[j].toLowerCase() != line[i + j]) equal = false
-//                }
-//                if (equal) {
-//                    answer[elem] = answer.getOrDefault(elem, 0) + 1
-//                } else answer[elem] = 0
-//            }
-//        }
-//    }
-//    return answer
-//}
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val reader = File(inputName).bufferedReader()
+    val answer = mutableMapOf<String, Int>()
+    for (line in reader.readLines()) {
+        for (elem in substrings) {
+            val lineD = line.toLowerCase()
+            val elemD = elem.toLowerCase()
+            for (i in lineD.indices) {
+                var equal = true
+                for (j in elemD.indices) {
+                    if (i + j !in lineD.indices || elemD[j] != lineD[i + j]) equal = false
+                }
+                if (equal) {
+                    answer[elem] = answer.getOrDefault(elem, 0) + 1
+                }
+            }
+        }
+        for (elem1 in substrings) {
+            if (elem1 !in answer) answer[elem1] = 0
+        }
+    }
+    return answer
+}
 
 
 /**
