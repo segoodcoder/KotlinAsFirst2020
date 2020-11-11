@@ -65,7 +65,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
 fun deleteMarked(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     for (line in File(inputName).readLines()) {
-        if (line.firstOrNull() != '_') {
+        if (!line.startsWith('_')) {
             writer.write(line)
             writer.newLine()
         }
@@ -82,7 +82,24 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+//fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+//    val reader = File(inputName).bufferedReader()
+//    val answer = mutableMapOf<String, Int>()
+//    for (line in reader.readLines()) {
+//        for (elem in substrings) {
+//            for (i in line.indices) {
+//                var equal = true
+//                for (j in elem.indices) {
+//                    if (i + j !in line.indices || elem[j].toUpperCase() != line[i + j] || elem[j].toLowerCase() != line[i + j]) equal = false
+//                }
+//                if (equal) {
+//                    answer[elem] = answer.getOrDefault(elem, 0) + 1
+//                } else answer[elem] = 0
+//            }
+//        }
+//    }
+//    return answer
+//}
 
 
 /**

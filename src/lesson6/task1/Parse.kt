@@ -227,18 +227,22 @@ fun fromRoman(roman: String): Int {
     if (roman == "") return -1
     for (char in roman.trim()) {
         val num = romans[char] ?: return -1
-        if (num < tmp) {
-            answer += tmp
-            tmp = num
-        } else if (num > tmp) {
-            if (tmp == 0) tmp = num
-            else {
-                answer += num - tmp
+        when {
+            num < tmp -> {
+                answer += tmp
+                tmp = num
+            }
+            num > tmp -> {
+                if (tmp == 0) tmp = num
+                else {
+                    answer += num - tmp
+                    tmp = 0
+                }
+            }
+            else -> {
+                answer += tmp + num
                 tmp = 0
             }
-        } else if (num == tmp) {
-            answer += tmp + num
-            tmp = 0
         }
     }
     return answer + tmp
