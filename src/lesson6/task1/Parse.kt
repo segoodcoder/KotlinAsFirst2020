@@ -5,6 +5,7 @@ package lesson6.task1
 import lesson2.task2.daysInMonth
 import java.lang.Exception
 import java.lang.IllegalArgumentException
+import java.lang.IllegalStateException
 import java.lang.NumberFormatException
 
 // Урок 6: разбор строк, исключения
@@ -285,3 +286,68 @@ fun fromRoman(roman: String): Int {
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+//    val charList = mutableListOf<Char>()
+//    val result = MutableList(cells) { 0 }
+//    if (limit < commands.length) {
+//        for (i in 0 until limit) {
+//            charList.add(commands[i])
+//        }
+//    } else {
+//        for (element in commands) {
+//            charList.add(element)
+//        }
+//    }
+//    val resIter = result.listIterator(result.size / 2)
+//    val charIter = charList.listIterator()
+//    var ch: Char
+//    try {
+//        while (charIter.hasNext()) {
+//            ch = charIter.next()
+//            when (ch) {
+//                '+' -> {
+//                    val resInd = resIter.nextIndex()
+//                    result[resInd]++
+//                }
+//                '-' -> {
+//                    val resInd = resIter.nextIndex()
+//                    result[resInd]--
+//                }
+//                '<' -> resIter.previous()
+//                '>' -> resIter.next()
+//                '[' -> {
+//                    val resInd = resIter.nextIndex()
+//                    if (result[resInd] == 0) {
+//                        ch = charIter.next()
+//                        while (ch != ']') {
+//                            if (charIter.hasNext()) {
+//                                ch = charIter.next()
+//                            }
+//                        }
+//                        if (charIter.hasNext()) {
+//                            ch = charIter.next()
+//                        }
+//                    }
+//                }
+//                ']' -> {
+//                    val resInd = resIter.nextIndex()
+//                    if (result[resInd] != 0) {
+//                        ch = charIter.previous()
+//                        while (ch != '[') {
+//                            if (charIter.hasPrevious()) {
+//                                ch = charIter.previous()
+//                            }
+//                        }
+//                        if (charIter.hasNext()) {
+//                            charIter.next()
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    } catch (e: IllegalArgumentException) {
+//    } catch (e1: IllegalStateException) {
+//
+//    }
+//    return result
+//}
+
