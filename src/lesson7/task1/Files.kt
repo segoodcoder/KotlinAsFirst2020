@@ -122,7 +122,29 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val reader = File(inputName).bufferedReader()
+    val writer = File(outputName).bufferedWriter()
+    val letterS = setOf("Ж", "ж", "Ч", "ч", "Ш", "ш", "Щ", "щ")
+    val changes = mapOf("Ы" to "И", "ы" to "и", "Я" to "А", "я" to "а", "Ю" to "У", "ю" to "у")
+    for (line in reader.readLines()) {
+        val words = line.split(" ")
+        val newWords = mutableListOf<String>()
+        for (word in words) {
+            val letters = word.split("").toMutableList()
+            letters.removeAt(0)
+            letters.removeAt(letters.size - 1)
+            for (letter in letters) {
+                if (letter in letterS && letters.indexOf(letter) != letters.size - 1 &&
+                    letters[letters.indexOf(letter) + 1] in changes.keys
+                )
+                    letters[letters.indexOf(letter) + 1] = changes[letters[letters.indexOf(letter) + 1]]!!
+            }
+            newWords.add(letters.joinToString(""))
+        }
+        writer.write(newWords.joinToString(" "))
+        writer.newLine()
+    }
+    writer.close()
 }
 
 /**
@@ -145,6 +167,7 @@ fun sibilants(inputName: String, outputName: String) {
 fun centerFile(inputName: String, outputName: String) {
     TODO()
 }
+
 
 /**
  * Сложная (20 баллов)
