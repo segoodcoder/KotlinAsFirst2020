@@ -208,7 +208,21 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.isEmpty()) return ""
+    if (";" in description && " " !in description) return ""
+    val namesAndPrices = description.split("; ")
+    var answer = ""
+    var max = -1.0
+    for (elem in namesAndPrices) {
+        val nameAndPrice = elem.split(" ")
+        if (nameAndPrice[1].toDoubleOrNull()!! > max) {
+            max = nameAndPrice[1].toDouble()
+            answer = nameAndPrice[0]
+        } else if (nameAndPrice[1].toDoubleOrNull() == null || nameAndPrice[1].toDoubleOrNull()!! < 0) return ""
+    }
+    return answer
+}
 
 /**
  * Сложная (6 баллов)
@@ -286,68 +300,4 @@ fun fromRoman(roman: String): Int {
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
-//    val charList = mutableListOf<Char>()
-//    val result = MutableList(cells) { 0 }
-//    if (limit < commands.length) {
-//        for (i in 0 until limit) {
-//            charList.add(commands[i])
-//        }
-//    } else {
-//        for (element in commands) {
-//            charList.add(element)
-//        }
-//    }
-//    val resIter = result.listIterator(result.size / 2)
-//    val charIter = charList.listIterator()
-//    var ch: Char
-//    try {
-//        while (charIter.hasNext()) {
-//            ch = charIter.next()
-//            when (ch) {
-//                '+' -> {
-//                    val resInd = resIter.nextIndex()
-//                    result[resInd]++
-//                }
-//                '-' -> {
-//                    val resInd = resIter.nextIndex()
-//                    result[resInd]--
-//                }
-//                '<' -> resIter.previous()
-//                '>' -> resIter.next()
-//                '[' -> {
-//                    val resInd = resIter.nextIndex()
-//                    if (result[resInd] == 0) {
-//                        ch = charIter.next()
-//                        while (ch != ']') {
-//                            if (charIter.hasNext()) {
-//                                ch = charIter.next()
-//                            }
-//                        }
-//                        if (charIter.hasNext()) {
-//                            ch = charIter.next()
-//                        }
-//                    }
-//                }
-//                ']' -> {
-//                    val resInd = resIter.nextIndex()
-//                    if (result[resInd] != 0) {
-//                        ch = charIter.previous()
-//                        while (ch != '[') {
-//                            if (charIter.hasPrevious()) {
-//                                ch = charIter.previous()
-//                            }
-//                        }
-//                        if (charIter.hasNext()) {
-//                            charIter.next()
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    } catch (e: IllegalArgumentException) {
-//    } catch (e1: IllegalStateException) {
-//
-//    }
-//    return result
-//}
 
