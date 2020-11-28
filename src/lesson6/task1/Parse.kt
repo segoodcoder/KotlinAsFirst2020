@@ -208,7 +208,21 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.isEmpty()) return ""
+    if (";" in description && " " !in description) return ""
+    val namesAndPrices = description.split("; ")
+    var answer = ""
+    var max = -1.0
+    for (elem in namesAndPrices) {
+        val nameAndPrice = elem.split(" ")
+        if (nameAndPrice[1].toDoubleOrNull()!! > max) {
+            max = nameAndPrice[1].toDouble()
+            answer = nameAndPrice[0]
+        } else if (nameAndPrice[1].toDoubleOrNull() == null || nameAndPrice[1].toDoubleOrNull()!! < 0) return ""
+    }
+    return answer
+}
 
 /**
  * Сложная (6 баллов)
@@ -286,3 +300,4 @@ fun fromRoman(roman: String): Int {
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
