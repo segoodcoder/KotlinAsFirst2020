@@ -133,11 +133,11 @@ fun sibilants(inputName: String, outputName: String) {
             val letters = word.split("").toMutableList()
             letters.removeAt(0)
             letters.removeAt(letters.size - 1)
+            var index = -1
             for (letter in letters) {
-                if (letter in letterS && letters.indexOf(letter) != letters.size - 1 &&
-                    letters[letters.indexOf(letter) + 1] in changes.keys
-                )
-                    letters[letters.indexOf(letter) + 1] = changes[letters[letters.indexOf(letter) + 1]]!!
+                index++
+                if (letter in letterS && index != letters.size - 1 && letters[index + 1] in changes.keys)
+                    letters[index + 1] = changes[letters[index + 1]]!!
             }
             newWords.add(letters.joinToString(""))
         }

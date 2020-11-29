@@ -110,6 +110,9 @@ Basic, Ruby, Swift.
  */"""
         )
         File("temp.txt").delete()
+        sibilants("input/test_for_sibilants.txt", "temp1.txt")
+        assertFileContent("temp1.txt", "жжу -")
+        File("temp1.txt").delete()
     }
 
     @Test
