@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import java.lang.IllegalArgumentException
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -124,18 +125,18 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
 fun sibilants(inputName: String, outputName: String) {
     val reader = File(inputName).bufferedReader()
     val writer = File(outputName).bufferedWriter()
-    val letterS = setOf("Ж", "ж", "Ч", "ч", "Ш", "ш", "Щ", "щ")
-    val changes = mapOf("Ы" to "И", "ы" to "и", "Я" to "А", "я" to "а", "Ю" to "У", "ю" to "у")
+    val letterS = setOf('Ж', 'ж', 'Ч', 'ч', 'Ш', 'ш', 'Щ', 'щ')
+    val changes = mapOf('Ы' to 'И', 'ы' to 'и', 'Я' to 'А', 'я' to 'а', 'Ю' to 'У', 'ю' to 'у')
     for (line in reader.readLines()) {
         val words = line.split(" ")
         val newWords = mutableListOf<String>()
         for (word in words) {
-            val letters = word.split("").toMutableList()
-            letters.removeAt(0)
-            letters.removeAt(letters.size - 1)
+            val letters = word.toMutableList()
             for ((index, letter) in letters.withIndex()) {
-                if (letter in letterS && index != letters.size - 1 && changes[letters[index + 1]] != null)
-                    letters[index + 1] = changes[letters[index + 1]]!!
+                if (letter in letterS && index != letters.size - 1) {
+                    val nextLetter = changes[letters[index + 1]]
+                    if (nextLetter != null) letters[index + 1] = nextLetter
+                }
             }
             newWords.add(letters.joinToString(""))
         }
@@ -502,4 +503,3 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
-

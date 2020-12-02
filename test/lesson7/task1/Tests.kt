@@ -1,9 +1,11 @@
 package lesson7.task1
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import java.io.File
+import java.lang.IllegalArgumentException
 
 class Tests {
 
@@ -442,3 +444,4 @@ Basic, Ruby, Swift.
         File("temp.txt").delete()
     }
 }
+
