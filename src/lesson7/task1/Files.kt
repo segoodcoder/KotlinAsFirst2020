@@ -4,6 +4,7 @@ package lesson7.task1
 
 import java.io.File
 import java.lang.IllegalArgumentException
+import kotlin.math.pow
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -515,5 +516,52 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val answer = lhv / rhv
+    writer.write(" $lhv | $rhv")
+    writer.newLine()
+    val digits = lhv.toString().split("").filter { it != "" }
+    var tempNumber = digits[0].toInt()
+    for ((index) in digits.withIndex()) {
+        if (tempNumber < rhv && index != lhv.toString().length - 1) {
+            tempNumber = (tempNumber.toString() + digits[index + 1]).toInt()
+        }
+    }
+    var tempNumber1 = tempNumber / rhv * rhv
+    writer.write("-$tempNumber1")
+    for (i in 1..answer.toString().length + 2) writer.write(" ")
+    writer.write("$answer")
+    var odd = (lhv % (tempNumber * 10.0.pow(lhv.toString().length - tempNumber.toString().length))).toInt()
+    writer.newLine()
+    for (i in 1..tempNumber1.toString().length + 1) writer.write("-")
+    writer.newLine()
+    var ost = tempNumber - tempNumber1
+    var ostSize = ost.toString().length
+    var constSpaces = tempNumber1.toString().length + 1 - ostSize
+    for (i in 1..constSpaces) writer.write(" ")
+    writer.write(ost.toString())
+    if (odd != 0) {
+        for (digit in odd.toString().split("").filter { it != "" }) {
+            writer.write(digit)
+            writer.newLine()
+            tempNumber = (ost.toString() + digit).toInt()
+            tempNumber1 = tempNumber / rhv * rhv
+            if (tempNumber1 == 0 || (ost.toString() + digit).startsWith("0")) for (i in 1..constSpaces) writer.write(" ")
+            else for (i in 1 until constSpaces) writer.write(" ")
+            writer.write("-$tempNumber1")
+            writer.newLine()
+            if (tempNumber1 == 0 || (ost.toString() + digit).startsWith("0")) for (i in 1..constSpaces) writer.write(" ")
+            else for (i in 1 until constSpaces) writer.write(" ")
+            for (i in 1..tempNumber1.toString().length + 1) writer.write("-")
+            writer.newLine()
+            ost = tempNumber - tempNumber1
+            for (i in 1..constSpaces + tempNumber.toString().length - ost.toString().length) writer.write(" ")
+            if ((ost.toString() + digit).startsWith("0")) writer.write(" $ost")
+            else writer.write(ost.toString())
+            if ((ost.toString() + digit).startsWith("0")) constSpaces++
+            else constSpaces = constSpaces + tempNumber.toString().length - ost.toString().length
+        }
+    }
+    writer.close()
 }
+
