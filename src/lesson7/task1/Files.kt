@@ -531,7 +531,9 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     writer.write("-$tempNumber1")
     for (i in 1..answer.toString().length + 2) writer.write(" ")
     writer.write("$answer")
-    var odd = (lhv % (tempNumber * 10.0.pow(lhv.toString().length - tempNumber.toString().length))).toInt()
+    var odd = lhv.toString().map { it.toString() }.toMutableList()
+    val lengthFirst = tempNumber.toString().length
+    val odd1 = odd.drop(lengthFirst)
     writer.newLine()
     for (i in 1..tempNumber1.toString().length + 1) writer.write("-")
     writer.newLine()
@@ -540,8 +542,8 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     var constSpaces = tempNumber1.toString().length + 1 - ostSize
     for (i in 1..constSpaces) writer.write(" ")
     writer.write(ost.toString())
-    if (odd != 0) {
-        for (digit in odd.toString().split("").filter { it != "" }) {
+    if (odd1.isNotEmpty()) {
+        for (digit in odd1) {
             writer.write(digit)
             writer.newLine()
             tempNumber = (ost.toString() + digit).toInt()
