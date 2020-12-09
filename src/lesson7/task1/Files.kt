@@ -553,16 +553,18 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             else for (i in 1 until constSpaces) writer.write(" ")
             writer.write("-$tempNumber1")
             writer.newLine()
-            if (tempNumber1 == 0 || (ost.toString() + digit).startsWith("0")) for (i in 1..constSpaces) writer.write(" ")
+            if ((ost.toString() + digit).length >= tempNumber1.toString().length + 1) for (i in 1..constSpaces) writer.write(
+                " "
+            )
             else for (i in 1 until constSpaces) writer.write(" ")
             for (i in 1..tempNumber1.toString().length + 1) writer.write("-")
             writer.newLine()
             ost = tempNumber - tempNumber1
             for (i in 1..constSpaces + tempNumber.toString().length - ost.toString().length) writer.write(" ")
             if ((ost1.toString() + digit).startsWith("0")) writer.write(" $ost")
-            else writer.write(ost.toString())
-            if ((ost.toString() + digit).startsWith("0")) constSpaces++
-            else constSpaces = constSpaces + tempNumber.toString().length - ost.toString().length
+            else writer.write("$ost")
+//            if ((ost.toString() + digit).startsWith("0")) constSpaces++
+            constSpaces = constSpaces + (ost1.toString() + digit).length - ost.toString().length
         }
     }
     writer.close()
