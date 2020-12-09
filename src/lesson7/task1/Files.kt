@@ -544,6 +544,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     writer.write(ost.toString())
     if (odd1.isNotEmpty()) {
         for (digit in odd1) {
+            var ost1 = ost
             writer.write(digit)
             writer.newLine()
             tempNumber = (ost.toString() + digit).toInt()
@@ -558,7 +559,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             writer.newLine()
             ost = tempNumber - tempNumber1
             for (i in 1..constSpaces + tempNumber.toString().length - ost.toString().length) writer.write(" ")
-            if ((ost.toString() + digit).startsWith("0")) writer.write(" $ost")
+            if ((ost1.toString() + digit).startsWith("0")) writer.write(" $ost")
             else writer.write(ost.toString())
             if ((ost.toString() + digit).startsWith("0")) constSpaces++
             else constSpaces = constSpaces + tempNumber.toString().length - ost.toString().length
