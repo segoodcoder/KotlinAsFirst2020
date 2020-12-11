@@ -4,7 +4,7 @@ package lesson7.task1
 
 import java.io.File
 import java.lang.IllegalArgumentException
-import kotlin.math.pow
+
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -129,18 +129,15 @@ fun sibilants(inputName: String, outputName: String) {
     val letterS = setOf('Ж', 'ж', 'Ч', 'ч', 'Ш', 'ш', 'Щ', 'щ')
     val changes = mapOf('Ы' to 'И', 'ы' to 'и', 'Я' to 'А', 'я' to 'а', 'Ю' to 'У', 'ю' to 'у')
     for (line in reader.readLines()) {
-        val words = line.split(" ")
         val newWords = mutableListOf<String>()
-        for (word in words) {
-            val letters = word.toMutableList()
-            for ((index, letter) in letters.withIndex()) {
-                if (letter in letterS && index != letters.size - 1) {
-                    val nextLetter = changes[letters[index + 1]]
-                    if (nextLetter != null) letters[index + 1] = nextLetter
-                }
+        val letters = line.toMutableList()
+        for ((index, letter) in letters.withIndex()) {
+            if (letter in letterS && index != letters.size - 1) {
+                val nextLetter = changes[letters[index + 1]]
+                if (nextLetter != null) letters[index + 1] = nextLetter
             }
-            newWords.add(letters.joinToString(""))
         }
+        newWords.add(letters.joinToString(""))
         writer.write(newWords.joinToString(" "))
         writer.newLine()
     }
@@ -518,53 +515,53 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val answer = lhv / rhv
-    val digits = lhv.toString().split("").filter { it != "" }
-    var tempNumber = digits[0].toInt()
-    for ((index) in digits.withIndex()) {
+    val numbers = lhv.toString().split("").filter { it != "" }.toMutableList()
+    var tempNumber = numbers[0].toInt()
+    for ((index) in numbers.withIndex()) {
         if (tempNumber < rhv && index != lhv.toString().length - 1) {
-            tempNumber = (tempNumber.toString() + digits[index + 1]).toInt()
+            tempNumber = (tempNumber.toString() + numbers[index + 1]).toInt()
         }
     }
+    val firstLength = tempNumber.toString().length
+    val numbersOdd = numbers.drop(firstLength)
     var tempNumber1 = tempNumber / rhv * rhv
-    if (tempNumber.toString().length + 1 == lhv.toString().length) writer.write("$lhv | $rhv")
-    else writer.write(" $lhv | $rhv")
+    if (tempNumber == lhv && tempNumber1 != 0) writer.write("$lhv | $rhv") else writer.write(" $lhv | $rhv")
     writer.newLine()
     writer.write("-$tempNumber1")
     for (i in 1..answer.toString().length + 2) writer.write(" ")
     writer.write("$answer")
-    var odd = lhv.toString().map { it.toString() }.toMutableList()
-    val lengthFirst = tempNumber.toString().length
-    val odd1 = odd.drop(lengthFirst)
     writer.newLine()
     for (i in 1..tempNumber1.toString().length + 1) writer.write("-")
     writer.newLine()
     var ost = tempNumber - tempNumber1
-    var ostSize = ost.toString().length
-    var constSpaces = tempNumber1.toString().length + 1 - ostSize
-    for (i in 1..constSpaces) writer.write(" ")
-    writer.write(ost.toString())
-    if (odd1.isNotEmpty()) {
-        for (digit in odd1) {
-            var ost1 = ost
-            writer.write(digit)
+    var spaces = tempNumber1.toString().length + 1 - ost.toString().length
+    for (i in 1..spaces) writer.write(" ")
+    writer.write("$ost")
+
+    if (numbersOdd.isNotEmpty()) {
+        for (number in numbersOdd) {
+            writer.write(number)
             writer.newLine()
-            tempNumber = (ost.toString() + digit).toInt()
+            tempNumber = (ost.toString() + number).toInt()
             tempNumber1 = tempNumber / rhv * rhv
-            if (tempNumber1 == 0 || (ost.toString() + digit).startsWith("0")) for (i in 1..constSpaces) writer.write(" ")
-            else for (i in 1 until constSpaces) writer.write(" ")
+            val prevOst = ost
+            ost = tempNumber - tempNumber1
+            if ((prevOst.toString() + number).length >= (tempNumber1.toString().length + 1))
+                for (i in 1..spaces + (prevOst.toString() + number).length - (tempNumber1.toString().length + 1)) writer.write(" ")
+            else for (i in 1 until spaces) writer.write(" ")
             writer.write("-$tempNumber1")
             writer.newLine()
-            if ((ost.toString() + digit).length >= tempNumber1.toString().length + 1) for (i in 1..constSpaces) writer.write(
-                " "
-            )
-            else for (i in 1 until constSpaces) writer.write(" ")
-            for (i in 1..tempNumber1.toString().length + 1) writer.write("-")
+            if ((prevOst.toString() + number).length >= (tempNumber1.toString().length + 1)) {
+                for (i in 1..spaces) writer.write(" ")
+                for (i in 1..(prevOst.toString() + number).length) writer.write("-")
+            } else {
+                for (i in 1 until spaces) writer.write(" ")
+                for (i in 1..tempNumber1.toString().length + 1) writer.write("-")
+            }
             writer.newLine()
-            ost = tempNumber - tempNumber1
-            for (i in 1..constSpaces + tempNumber.toString().length - ost.toString().length) writer.write(" ")
-            if ((ost1.toString() + digit).startsWith("0")) writer.write(" $ost")
-            else writer.write("$ost")
-            constSpaces = constSpaces + (ost1.toString() + digit).length - ost.toString().length
+            spaces += (prevOst.toString() + number).length - ost.toString().length
+            for (i in 1..spaces) writer.write(" ")
+            writer.write("$ost")
         }
     }
     writer.close()
