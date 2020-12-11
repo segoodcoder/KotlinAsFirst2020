@@ -454,6 +454,18 @@ Basic, Ruby, Swift.
                38449
              """
         )
+
+        test(
+            1,
+            1,
+            """
+             1 | 1
+            -1   1
+            --
+             0
+            """
+
+        )
         File("temp.txt").delete()
     }
 }
