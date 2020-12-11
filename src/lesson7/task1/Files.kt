@@ -518,8 +518,6 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val answer = lhv / rhv
-    writer.write(" $lhv | $rhv")
-    writer.newLine()
     val digits = lhv.toString().split("").filter { it != "" }
     var tempNumber = digits[0].toInt()
     for ((index) in digits.withIndex()) {
@@ -528,6 +526,9 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         }
     }
     var tempNumber1 = tempNumber / rhv * rhv
+    if (tempNumber.toString().length + 1 == lhv.toString().length) writer.write("$lhv | $rhv")
+    else writer.write(" $lhv | $rhv")
+    writer.newLine()
     writer.write("-$tempNumber1")
     for (i in 1..answer.toString().length + 2) writer.write(" ")
     writer.write("$answer")
@@ -563,7 +564,6 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             for (i in 1..constSpaces + tempNumber.toString().length - ost.toString().length) writer.write(" ")
             if ((ost1.toString() + digit).startsWith("0")) writer.write(" $ost")
             else writer.write("$ost")
-//            if ((ost.toString() + digit).startsWith("0")) constSpaces++
             constSpaces = constSpaces + (ost1.toString() + digit).length - ost.toString().length
         }
     }
