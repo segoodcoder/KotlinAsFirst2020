@@ -7,6 +7,8 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlin.math.abs
+import kotlin.math.asin
 
 // Урок 8: простые классы
 // Максимальное количество баллов = 40 (без очень трудных задач = 11)
@@ -14,7 +16,7 @@ import kotlin.math.sqrt
 /**
  * Точка на плоскости
  */
-data class Point(val x: Double, val y: Double) {
+data class Point(var x: Double, var y: Double) {
     /**
      * Пример
      *
@@ -176,6 +178,7 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+
 
 /**
  * Средняя (3 балла)

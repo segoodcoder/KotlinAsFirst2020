@@ -4,6 +4,7 @@ package lesson7.task1
 
 import java.io.File
 import java.lang.IllegalArgumentException
+import java.util.*
 
 
 // Урок 7: работа с файлами
@@ -549,7 +550,8 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             val prevOst = ost
             ost = tempNumber - tempNumber1
             if ((prevOst.toString() + number).length >= (tempNumber1.toString().length + 1))
-                for (i in 1..spaces + (prevOst.toString() + number).length - (tempNumber1.toString().length + 1)) writer.write(" ")
+                for (i in 1..spaces + (prevOst.toString() + number).length - (tempNumber1.toString().length + 1))
+                    writer.write(" ")
             else for (i in 1 until spaces) writer.write(" ")
             writer.write("-$tempNumber1")
             writer.newLine()
