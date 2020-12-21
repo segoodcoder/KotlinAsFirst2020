@@ -209,8 +209,47 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val reader = File(inputName).bufferedReader()
+    val writer = File(outputName).bufferedWriter()
+    val listOfLines = mutableListOf<String>()
+    var maxLength = -1
+    for (line in reader.readLines()) {
+        val currentLength = line.trim().length
+        if (currentLength > maxLength) maxLength = currentLength
+        listOfLines.add(line.trim())
+    }
+    for (line in listOfLines) {
+        val listOfChars = line.toMutableList()
+        if (line.isNotEmpty()) {
+            for ((index, elem) in listOfChars.withIndex()) {
+                if (elem == ' ' && listOfChars[index - 1] == ' ') listOfChars.removeAt(index)
+            }
+            var length = listOfChars.size
+            val listOfSpaceIndices = mutableListOf<Int>()
+            for ((index, char) in listOfChars.withIndex()) {
+                if (char == ' ') listOfSpaceIndices.add(index)
+            }
+            var ind = 0
+            var delta = 1
+            if (listOfSpaceIndices.isNotEmpty()) {
+                while (length < maxLength) {
+                    listOfChars.add(listOfSpaceIndices[ind], ' ')
+                    delta++
+                    length = listOfChars.size
+                    if (ind == listOfSpaceIndices.size - 1) {
+                        ind = 0
+                        delta = 0
+                    } else ind++
+                    listOfSpaceIndices[ind] += delta
+                }
+            }
+        }
+        writer.write(listOfChars.joinToString(separator = ""))
+        writer.newLine()
+    }
+    writer.close()
 }
+
 
 /**
  * Средняя (14 баллов)
