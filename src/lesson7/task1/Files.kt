@@ -220,9 +220,10 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     }
     for (line in listOfLines) {
         val listOfChars = line.toMutableList()
+        val listOfChars1 = listOfChars
         if (line.isNotEmpty()) {
             for ((index, elem) in listOfChars.withIndex()) {
-                if (elem == ' ' && listOfChars[index - 1] == ' ') listOfChars.removeAt(index)
+                if (elem == ' ' && listOfChars[index - 1] == ' ') listOfChars1.removeAt(index)
             }
             var length = listOfChars.size
             val listOfSpaceIndices = mutableListOf<Int>()
@@ -565,7 +566,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val firstLength = tempNumber.toString().length
     val numbersOdd = numbers.drop(firstLength)
     var tempNumber1 = tempNumber / rhv * rhv
-    if (tempNumber == lhv && tempNumber1 != 0 && tempNumber1.toString().length != lhv.toString().length)
+    if (tempNumber == lhv && tempNumber1 != 0 && tempNumber1.toString().length != lhv.toString().length || rhv > lhv)
         writer.write("$lhv | $rhv")
     else writer.write(" $lhv | $rhv")
     writer.newLine()
