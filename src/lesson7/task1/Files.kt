@@ -218,35 +218,39 @@ fun alignFileByWidth(inputName: String, outputName: String) {
         if (currentLength > maxLength) maxLength = currentLength
         listOfLines.add(line.trim())
     }
-    for (line in listOfLines) {
-        val listOfChars = line.toMutableList()
-        val listOfChars1 = listOfChars
-        if (line.isNotEmpty()) {
-            for ((index, elem) in listOfChars.withIndex()) {
-                if (elem == ' ' && listOfChars[index - 1] == ' ') listOfChars1.removeAt(index)
-            }
-            var length = listOfChars.size
-            val listOfSpaceIndices = mutableListOf<Int>()
-            for ((index, char) in listOfChars.withIndex()) {
-                if (char == ' ') listOfSpaceIndices.add(index)
-            }
-            var ind = 0
-            var delta = 1
-            if (listOfSpaceIndices.isNotEmpty()) {
-                while (length < maxLength) {
-                    listOfChars.add(listOfSpaceIndices[ind], ' ')
-                    delta++
-                    length = listOfChars.size
-                    if (ind == listOfSpaceIndices.size - 1) {
-                        ind = 0
-                        delta = 0
-                    } else ind++
-                    listOfSpaceIndices[ind] += delta
+    try {
+        for (line in listOfLines) {
+            val listOfChars = line.toMutableList()
+            val listOfChars1 = listOfChars
+            if (line.isNotEmpty()) {
+                for ((index, elem) in listOfChars.withIndex()) {
+                    if (elem == ' ' && listOfChars[index - 1] == ' ') listOfChars1.removeAt(index)
+                }
+                var length = listOfChars.size
+                val listOfSpaceIndices = mutableListOf<Int>()
+                for ((index, char) in listOfChars.withIndex()) {
+                    if (char == ' ') listOfSpaceIndices.add(index)
+                }
+                var ind = 0
+                var delta = 1
+                if (listOfSpaceIndices.isNotEmpty()) {
+                    while (length < maxLength) {
+                        listOfChars.add(listOfSpaceIndices[ind], ' ')
+                        delta++
+                        length = listOfChars.size
+                        if (ind == listOfSpaceIndices.size - 1) {
+                            ind = 0
+                            delta = 0
+                        } else ind++
+                        listOfSpaceIndices[ind] += delta
+                    }
                 }
             }
+            writer.write(listOfChars.joinToString(separator = ""))
+            writer.newLine()
         }
-        writer.write(listOfChars.joinToString(separator = ""))
-        writer.newLine()
+    } catch (e: java.util.ConcurrentModificationException) {
+
     }
     writer.close()
 }
@@ -566,7 +570,8 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val firstLength = tempNumber.toString().length
     val numbersOdd = numbers.drop(firstLength)
     var tempNumber1 = tempNumber / rhv * rhv
-    if (tempNumber == lhv && tempNumber1 != 0 && tempNumber1.toString().length != lhv.toString().length || rhv > lhv)
+    if (tempNumber == lhv && tempNumber1 != 0 && tempNumber1.toString().length != lhv.toString().length || rhv > lhv
+        && rhv.toString().length == lhv.toString().length)
         writer.write("$lhv | $rhv")
     else writer.write(" $lhv | $rhv")
     writer.newLine()
